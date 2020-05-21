@@ -8,6 +8,7 @@ import time
 if __name__ == '__main__':
     # channel = grpc.insecure_channel('localhost:9000')
     # channel = grpc.insecure_channel('10.100.55.91:9000')
+    # for k8s test job
     channel = grpc.insecure_channel('service/eks-neuron-test-bert-service:9000')
     stub = prediction_service_pb2_grpc.PredictionServiceStub(channel)
     request = predict_pb2.PredictRequest()
@@ -25,3 +26,7 @@ if __name__ == '__main__':
         print("Inference successful: {}".format(i))
 
     print ("Ran {} inferences successfully. Latency average = {}".format(len(latencies), np.average(latencies)))
+    if len(latencies) == 100:
+        print("succeeded")
+    else:
+        print("fail")
