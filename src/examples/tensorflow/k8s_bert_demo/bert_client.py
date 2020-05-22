@@ -7,8 +7,8 @@ import time
 import sys
 
 if __name__ == '__main__':
-    channel = grpc.insecure_channel(sys.argv[1])
-    print ("generating channel : {}".format(sys.argv[1]))
+    channel = grpc.insecure_channel("'{}'".format(sys.argv[1]))
+    print ("generating channel : {}".format("'{}'".format(sys.argv[1])))
     stub = prediction_service_pb2_grpc.PredictionServiceStub(channel)
     request = predict_pb2.PredictRequest()
     request.model_spec.name = 'bert_mrpc_hc_gelus_b4_l24_0926_02'
@@ -25,8 +25,3 @@ if __name__ == '__main__':
         print("Inference successful: {}".format(i))
 
     print ("Ran {} inferences successfully. Latency average = {}".format(len(latencies), np.average(latencies)))
-
-    if len(latencies) == 100:
-        print("succeeded")
-    else:
-        print("fail")
