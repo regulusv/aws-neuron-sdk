@@ -5,11 +5,10 @@ from tensorflow_serving.apis import predict_pb2
 from tensorflow_serving.apis import prediction_service_pb2_grpc
 import time
 import sys
-import os
 
 if __name__ == '__main__':
-    os.system("./kubectl port-forward svc/eks-neuron-test-bert-service 9000:9000 & ")
-    channel = grpc.insecure_channel('localhost:9000')
+    channel = grpc.insecure_channel(sys.argv[1])
+    print ("generating channel:{}".format(sys.argv[1]))
     stub = prediction_service_pb2_grpc.PredictionServiceStub(channel)
     request = predict_pb2.PredictRequest()
     request.model_spec.name = 'bert_mrpc_hc_gelus_b4_l24_0926_02'
